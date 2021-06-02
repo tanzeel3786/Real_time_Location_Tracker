@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Real-time Location Tracker</string>
+    <string name="location_tracker_logo">Location Tracker Logo</string>
 </resources>
