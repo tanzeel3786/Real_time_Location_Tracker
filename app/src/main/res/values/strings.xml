@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Real-time Location Tracker</string>
     <string name="location_tracker_logo">Location Tracker Logo</string>
+    <string name="are_you_finder_or_target">Are You Finder Or Target</string>
+    <string name="finder">Finder</string>
+    <string name="target">Target</string>
 </resources>
