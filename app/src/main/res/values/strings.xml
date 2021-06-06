@@ -4,4 +4,6 @@
     <string name="are_you_finder_or_target">Are You Finder Or Target</string>
     <string name="finder">Finder</string>
     <string name="target">Target</string>
+    <string name="submit">submit</string>
+    <string name="hello">hello</string>
 </resources>

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,7 +15,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.Toast;
 
-import java.net.InetAddress;
+
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.Objects;
 
 
@@ -25,6 +26,7 @@ public class first_Page extends AppCompatActivity {
   int REQUEST_LOCATION=1;
     Runnable my_runnable;
     boolean stop = false;
+    private FirebaseAuth mAuth;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,43 +38,38 @@ public class first_Page extends AppCompatActivity {
         catch (NullPointerException e){
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
+        mAuth=FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser()!=null)
+            startActivity(new Intent(first_Page.this,FinderAndTargetCount.class));
+
 
 
         //This is to run the page in every 3 seconds when internet is Off
-        my_runnable = new Runnable() {
+        my_runnable = () -> {
 
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void run() {
-              //  Toast.makeText(getApplicationContext(),"on",Toast.LENGTH_SHORT).show();
 
-                if(permissionLocation())
-                {   if(isInternetAvailable())
-                     {stop();
-                    moveTonextActivity();
-                     }
-                     else
-                     {Toast.makeText(getApplicationContext(),"Please turn On your Internet",Toast.LENGTH_SHORT).show();
-                         start();
+            if(permissionLocation())
+            {   if(isInternetAvailable())
+                 {stop();
 
-                      }
-
-                }
-                else
-                {
-                       start();
-                }
-
+                 if(FirebaseAuth.getInstance().getCurrentUser()!=null)
+                     startActivity(new Intent(first_Page.this,FinderAndTargetCount.class));
+                 else
+                moveTonextActivity();
+                 }
+                 else
+                 {Toast.makeText(getApplicationContext(),"Please turn On your Internet",Toast.LENGTH_SHORT).show();
+                     start();
+                  }
+            }
+            else
+            {
+                   start();
             }
         };
         my_runnable.run();
-
-
         setContentView(R.layout.activity_first__page);
-
     }
-
-
    @RequiresApi(api = Build.VERSION_CODES.M)
    public boolean permissionLocation()
    {       String[] permissions={Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.ACCESS_BACKGROUND_LOCATION,Manifest.permission.ACCESS_COARSE_LOCATION};
@@ -111,19 +108,15 @@ public class first_Page extends AppCompatActivity {
 
                 }  else {
                     Toast.makeText(first_Page.this,"Location permission is needed to proceed further ",Toast.LENGTH_SHORT).show();
-
                 }
-
         }
-
     }
-
 
     public void start() {
         handler.postDelayed(my_runnable, 3000);
     }
 
-    // to stop the handler
+
     public void stop() {
         handler.removeCallbacks(my_runnable);
     }

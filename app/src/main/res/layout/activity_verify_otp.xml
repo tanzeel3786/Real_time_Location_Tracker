@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".verifyOTP">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="218dp"
+        app:srcCompat="@drawable/locationlogo" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/baloo_da"
+        android:gravity="center"
+        android:padding="6dp"
+        android:text="Verify OTP"
+        android:textSize="35sp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="20dp">
+
+        <EditText
+
+            android:id="@+id/verifyOTPEdittext1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/customborder"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="phone"
+            android:maxLength="1"
+            />
+
+        <EditText
+            android:id="@+id/verifyOTPEdittext2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/customborder"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="phone"
+            android:maxLength="1"
+            />
+
+        <EditText
+            android:id="@+id/verifyOTPEdittext3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/customborder"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="phone"
+            android:maxLength="1"
+            />
+
+        <EditText
+            android:id="@+id/verifyOTPEdittext4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/customborder"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="phone"
+            android:maxLength="1"
+
+            />
+        <EditText
+
+            android:id="@+id/verifyOTPEdittext5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/customborder"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="phone"
+            android:maxLength="1"
+            />
+        <EditText
+
+            android:id="@+id/verifyOTPEdittext6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/customborder"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="phone"
+            android:maxLength="1"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="50dp"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:background="#6200EE"
+        android:onClick="checkOTPManually"
+        android:text="Verify" />
+
+
+</LinearLayout>

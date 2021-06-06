@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Choose_Finder_Or_Target">
 
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="218dp"
+        android:layout_marginTop="70dp"
+        app:srcCompat="@drawable/locationlogo" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical"
-        android:layout_marginTop="270dp"
         android:padding="8dp">
 
         <TextView
@@ -20,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
+            android:fontFamily="@font/baloo_da"
             android:text="@string/are_you_finder_or_target"
             android:textSize="25sp" />
 
@@ -28,21 +36,43 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:paddingStart="90dp"
-            android:paddingEnd="90dp"
             android:paddingLeft="90dp"
-            android:paddingTop="15dp">
+            android:paddingTop="15dp"
+            android:paddingEnd="90dp">
 
             <RadioButton
-                android:id="@+id/radioButton2"
-                android:layout_width="match_parent"
+                android:id="@+id/cfot_finderRadioBtn"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/finder" />
+                android:fontFamily="casual"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/finder"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <RadioButton
-                android:id="@+id/radioButton3"
+                android:id="@+id/cfot_TargetRadioBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/target" />
+                android:fontFamily="casual"
+                android:onClick="onRadioButtonClicked"
+                android:text="@string/target"
+                android:textSize="16sp"
+                android:textStyle="bold" />
         </RadioGroup>
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:background="#6200EE"
+        android:onClick="moveToNextActivity"
+        android:text="@string/submit"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
 </LinearLayout>
