@@ -9,37 +9,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class FinderAndTargetCount extends AppCompatActivity {
+public class TargetFinalPage extends AppCompatActivity {
 
-    private ListView listView;
-    String[] maintitle ={
-            "Tanzeel","Tannu king",
-            "Krishu","Mannu",
-            "Patel","Jhanvi Nonwa","Prakash","Jadverkar naag","Smarty mukesh",
-    };
-    private TextView findertargetcounttextview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finder_and_target_count);
-
-         findertargetcounttextview=findViewById(R.id.findertargetcounttextview);
-         findertargetcounttextview.setText("Found "+maintitle.length+" targets");
-        CustomListAdapter1 adapter=new CustomListAdapter1(this, maintitle);
-        listView=(ListView)findViewById(R.id.findertargetcountlist);
-        listView.setAdapter(adapter);
-
-
+        setContentView(R.layout.activity_target_final_page);
     }
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -55,7 +34,7 @@ public class FinderAndTargetCount extends AppCompatActivity {
         {
             case R.id.findertargetcountlogout:
                 FirebaseAuth.getInstance().signOut();
-                startActivity(new Intent(FinderAndTargetCount.this,Choose_Finder_Or_Target.class));
+                startActivity(new Intent(TargetFinalPage.this,Choose_Finder_Or_Target.class));
                 break;
         }
         return true;

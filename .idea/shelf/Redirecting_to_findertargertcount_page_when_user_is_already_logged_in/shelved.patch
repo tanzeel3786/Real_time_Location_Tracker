@@ -1,0 +1,100 @@
+Index: app/src/main/java/com/example/real_timelocationtracker/Choose_Finder_Or_Target.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.real_timelocationtracker;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.RadioButton;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport java.util.Objects;\r\n\r\npublic class Choose_Finder_Or_Target extends AppCompatActivity  {\r\n     private String type=\"\";\r\n     private RadioButton button1;\r\n    private RadioButton button2;\r\n\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        try\r\n        {\r\n            Objects.requireNonNull(this.getSupportActionBar()).hide();\r\n        }\r\n        catch (NullPointerException e){\r\n            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();\r\n        }\r\n        setContentView(R.layout.activity_choose__finder__or__target);\r\n        button1=findViewById(R.id.cfot_finderRadioBtn);\r\n        button2=findViewById(R.id.cfot_TargetRadioBtn);\r\n\r\n    }\r\n\r\n    public void onRadioButtonClicked(View view) {\r\n\r\n        boolean checked = ((RadioButton) view).isChecked();\r\n\r\n\r\n        switch(view.getId()) {\r\n            case R.id.cfot_finderRadioBtn:\r\n                if (checked)\r\n                    type=\"finder\";\r\n                    break;\r\n            case R.id.cfot_TargetRadioBtn:\r\n                if (checked)\r\n                    type=\"target\";\r\n                break;\r\n        }\r\n    }\r\n\r\n\r\n\r\n\r\n    public void moveToNextActivity(View view) {\r\n        if(button1.isChecked()||button2.isChecked()) {\r\n            Intent intent = new Intent(getApplicationContext(), Signup.class);\r\n            intent.putExtra(\"type\", type);\r\n            startActivity(intent);\r\n        }\r\n        else\r\n            Toast.makeText(Choose_Finder_Or_Target.this,\"Please choose an option\",Toast.LENGTH_LONG).show();\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/real_timelocationtracker/Choose_Finder_Or_Target.java	(revision 0d05b328397dd161d72c9f1eede6dc830a029293)
++++ app/src/main/java/com/example/real_timelocationtracker/Choose_Finder_Or_Target.java	(date 1623311594689)
+@@ -1,63 +1,15 @@
+ package com.example.real_timelocationtracker;
+ 
++import androidx.annotation.Nullable;
+ import androidx.appcompat.app.AppCompatActivity;
+-
+-import android.content.Intent;
+ import android.os.Bundle;
+-import android.view.View;
+-import android.widget.RadioButton;
+-import android.widget.TextView;
+-import android.widget.Toast;
+-
+-import java.util.Objects;
+ 
+-public class Choose_Finder_Or_Target extends AppCompatActivity  {
+-     private String type="";
+-     private RadioButton button1;
+-    private RadioButton button2;
+-
+-    protected void onCreate(Bundle savedInstanceState) {
++public class Choose_Finder_Or_Target extends AppCompatActivity {
++    @Override
++    protected void onCreate(Bundle savedInstanceState)
++    {
+         super.onCreate(savedInstanceState);
+-        try
+-        {
+-            Objects.requireNonNull(this.getSupportActionBar()).hide();
+-        }
+-        catch (NullPointerException e){
+-            Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
+-        }
+-        setContentView(R.layout.activity_choose__finder__or__target);
+-        button1=findViewById(R.id.cfot_finderRadioBtn);
+-        button2=findViewById(R.id.cfot_TargetRadioBtn);
+-
+-    }
+-
+-    public void onRadioButtonClicked(View view) {
+-
+-        boolean checked = ((RadioButton) view).isChecked();
+-
+-
+-        switch(view.getId()) {
+-            case R.id.cfot_finderRadioBtn:
+-                if (checked)
+-                    type="finder";
+-                    break;
+-            case R.id.cfot_TargetRadioBtn:
+-                if (checked)
+-                    type="target";
+-                break;
+-        }
+-    }
+-
+-
+-
+-
+-    public void moveToNextActivity(View view) {
+-        if(button1.isChecked()||button2.isChecked()) {
+-            Intent intent = new Intent(getApplicationContext(), Signup.class);
+-            intent.putExtra("type", type);
+-            startActivity(intent);
+-        }
+-        else
+-            Toast.makeText(Choose_Finder_Or_Target.this,"Please choose an option",Toast.LENGTH_LONG).show();
++        setContentView(R.layout.activity_choose_finder_or_target);
++     
+     }
+-}
++}
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_choose_finder_or_target.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_choose_finder_or_target.xml	(date 1623310033440)
++++ app/src/main/res/layout/activity_choose_finder_or_target.xml	(date 1623310033440)
+@@ -0,0 +1,9 @@
++<?xml version="1.0" encoding="utf-8"?>
++<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    xmlns:tools="http://schemas.android.com/tools"
++    android:layout_width="match_parent"
++    android:layout_height="match_parent"
++    tools:context=".Choose_Finder_Or_Target">
++
++</android.support.constraint.ConstraintLayout>
+\ No newline at end of file

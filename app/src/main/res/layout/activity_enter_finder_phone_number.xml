@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".EnterFinderPhoneNumber">
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="match_parent"
+        android:layout_height="218dp"
+        app:srcCompat="@drawable/locationlogo" />
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:orientation="horizontal"
+      >
+      <com.hbb20.CountryCodePicker
+          android:id="@+id/ccp2"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"/>
+
+      <com.google.android.material.textfield.TextInputLayout
+          android:id="@+id/signup_targetTIL"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+
+          <com.google.android.material.textfield.TextInputEditText
+              android:id="@+id/finderNumberEDT"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:hint="Enter Your Number"
+              android:inputType="phone"
+              android:textSize="15sp" />
+      </com.google.android.material.textfield.TextInputLayout>
+  </LinearLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:background="#6200EE"
+        android:onClick="logout"
+        android:text="SUBMIT"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp" />
+
+
+</LinearLayout>

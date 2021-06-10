@@ -15,12 +15,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FinderAndTargetCount">
+        <activity android:name=".TargetFinalPage"/>
+        <activity android:name=".Choose_Finder_Or_Target">
 
         </activity>
+        <activity android:name=".EnterFinderPhoneNumber" />
+        <activity android:name=".FinderAndTargetCount" />
         <activity android:name=".verifyOTP" />
         <activity android:name=".Signup" />
-        <activity android:name=".Choose_Finder_Or_Target" />
         <activity android:name=".first_Page">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

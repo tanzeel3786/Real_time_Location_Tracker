@@ -1,6 +1,7 @@
 package com.example.real_timelocationtracker;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -17,6 +18,13 @@ import android.widget.Toast;
 
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -27,6 +35,10 @@ public class first_Page extends AppCompatActivity {
     Runnable my_runnable;
     boolean stop = false;
     private FirebaseAuth mAuth;
+    String phoneNO="";
+    String typeinDB="";
+
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +50,7 @@ public class first_Page extends AppCompatActivity {
         catch (NullPointerException e){
             Toast.makeText(getApplicationContext(),e.getMessage(),Toast.LENGTH_SHORT).show();
         }
-        mAuth=FirebaseAuth.getInstance();
-        if(mAuth.getCurrentUser()!=null)
-            startActivity(new Intent(first_Page.this,FinderAndTargetCount.class));
+
 
 
 
@@ -48,23 +58,60 @@ public class first_Page extends AppCompatActivity {
         my_runnable = () -> {
 
 
-            if(permissionLocation())
-            {   if(isInternetAvailable())
-                 {stop();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if(permissionLocation())
+                {   if(isInternetAvailable())
+                     {stop();
 
-                 if(FirebaseAuth.getInstance().getCurrentUser()!=null)
-                     startActivity(new Intent(first_Page.this,FinderAndTargetCount.class));
-                 else
-                moveTonextActivity();
-                 }
-                 else
-                 {Toast.makeText(getApplicationContext(),"Please turn On your Internet",Toast.LENGTH_SHORT).show();
-                     start();
-                  }
-            }
-            else
-            {
-                   start();
+                     if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+                      phoneNO= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
+                      final Query q=FirebaseDatabase.getInstance().getReference().orderByChild(phoneNO);
+                      q.addChildEventListener(new ChildEventListener() {
+                          @Override
+                          public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                              typeinDB=snapshot.getKey();
+                              Toast.makeText(first_Page.this,typeinDB,Toast.LENGTH_SHORT).show();
+
+                          }
+
+                          @Override
+                          public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+
+                          }
+
+                          @Override
+                          public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+
+                          }
+
+                          @Override
+                          public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+
+                          }
+
+                          @Override
+                          public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                          }
+                      });
+                      if(typeinDB.equals("finder"))
+                         startActivity(new Intent(first_Page.this, FinderAndTargetCount.class));
+                      else if(typeinDB.equals("target"))
+                          startActivity(new Intent(first_Page.this, TargetFinalPage.class));
+
+                     }
+                     else
+                    moveTonextActivity();
+                     }
+                     else
+                     {Toast.makeText(getApplicationContext(),"Please turn On your Internet",Toast.LENGTH_SHORT).show();
+                         start();
+                      }
+                }
+                else
+                {
+                       start();
+                }
             }
         };
         my_runnable.run();
@@ -93,6 +140,7 @@ public class first_Page extends AppCompatActivity {
     private void moveTonextActivity() {
         Intent intent=new Intent(getApplicationContext(),Choose_Finder_Or_Target.class);
         startActivity(intent);
+        finish();
     }
 
     @Override

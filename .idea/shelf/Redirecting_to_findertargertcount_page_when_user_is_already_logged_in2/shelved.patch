@@ -1,0 +1,22 @@
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">Real-time Location Tracker</string>\r\n    <string name=\"location_tracker_logo\">Location Tracker Logo</string>\r\n    <string name=\"are_you_finder_or_target\">Are You Finder Or Target</string>\r\n    <string name=\"finder\">Finder</string>\r\n    <string name=\"target\">Target</string>\r\n    <string name=\"submit\">submit</string>\r\n    <string name=\"hello\">hello</string>\r\n</resources>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision 0d05b328397dd161d72c9f1eede6dc830a029293)
++++ app/src/main/res/values/strings.xml	(date 1623311074562)
+@@ -1,9 +1,4 @@
+ <resources>
+     <string name="app_name">Real-time Location Tracker</string>
+-    <string name="location_tracker_logo">Location Tracker Logo</string>
+-    <string name="are_you_finder_or_target">Are You Finder Or Target</string>
+-    <string name="finder">Finder</string>
+-    <string name="target">Target</string>
+-    <string name="submit">submit</string>
+-    <string name="hello">hello</string>
+-</resources>
++
++</resources>
+\ No newline at end of file
