@@ -26,6 +26,8 @@ import com.google.firebase.database.Query;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -37,6 +39,8 @@ public class first_Page extends AppCompatActivity {
     private FirebaseAuth mAuth;
     String phoneNO="";
     String typeinDB="";
+    List<String> targetList=new ArrayList<>();
+    List<String> finderList=new ArrayList<>();
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -65,12 +69,14 @@ public class first_Page extends AppCompatActivity {
 
                      if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
                       phoneNO= FirebaseAuth.getInstance().getCurrentUser().getPhoneNumber();
-                      final Query q=FirebaseDatabase.getInstance().getReference().orderByChild(phoneNO);
+                       Query q=FirebaseDatabase.getInstance().getReference().child("target");
                       q.addChildEventListener(new ChildEventListener() {
                           @Override
                           public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
                               typeinDB=snapshot.getKey();
-                              Toast.makeText(first_Page.this,typeinDB,Toast.LENGTH_SHORT).show();
+                              if(typeinDB.equals(phoneNO))
+                                  startActivity(new Intent(first_Page.this, TargetFinalPage.class));
+                          //    Toast.makeText(first_Page.this,typeinDB,Toast.LENGTH_SHORT).show();
 
                           }
 
@@ -94,14 +100,48 @@ public class first_Page extends AppCompatActivity {
 
                           }
                       });
-                      if(typeinDB.equals("finder"))
-                         startActivity(new Intent(first_Page.this, FinderAndTargetCount.class));
-                      else if(typeinDB.equals("target"))
-                          startActivity(new Intent(first_Page.this, TargetFinalPage.class));
+
+                          q=FirebaseDatabase.getInstance().getReference().child("finder");
+                         q.addChildEventListener(new ChildEventListener() {
+                             @Override
+                             public void onChildAdded(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+                                 typeinDB=snapshot.getKey();
+                                 if(typeinDB.equals(phoneNO)) {
+                                     Intent intent=new Intent(first_Page.this, FinderAndTargetCount.class);
+                                     intent.putExtra("mobile",phoneNO);
+                                     startActivity(intent);
+                                 }
+                              //   Toast.makeText(first_Page.this,typeinDB,Toast.LENGTH_SHORT).show();
+
+                             }
+
+                             @Override
+                             public void onChildChanged(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+
+                             }
+
+                             @Override
+                             public void onChildRemoved(@NonNull @NotNull DataSnapshot snapshot) {
+
+                             }
+
+                             @Override
+                             public void onChildMoved(@NonNull @NotNull DataSnapshot snapshot, @Nullable @org.jetbrains.annotations.Nullable String previousChildName) {
+
+                             }
+
+                             @Override
+                             public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                             }
+                         });
+
 
                      }
-                     else
-                    moveTonextActivity();
+                     else {
+
+                         moveTonextActivity();
+                     }
                      }
                      else
                      {Toast.makeText(getApplicationContext(),"Please turn On your Internet",Toast.LENGTH_SHORT).show();

@@ -125,6 +125,7 @@ public class verifyOTP extends AppCompatActivity {
                         if(type.equals("finder")) {
                             Intent intent=new Intent(verifyOTP.this,FinderAndTargetCount.class);
                             FirebaseDatabase.getInstance().getReference().child("finder").child(phoneNumber).setValue(map);
+                            intent.putExtra("mobile",phoneNumber);
                             startActivity(intent);
                         }
                         else if(type.equals("target"))

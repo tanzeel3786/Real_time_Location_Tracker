@@ -6,4 +6,5 @@
     <string name="target">Target</string>
     <string name="submit">submit</string>
     <string name="hello">hello</string>
+    <string name="title_activity_show_target_location">Map</string>
 </resources>
