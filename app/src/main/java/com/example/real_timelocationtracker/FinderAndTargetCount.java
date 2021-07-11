@@ -5,8 +5,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,12 +47,16 @@ public class FinderAndTargetCount extends AppCompatActivity implements AdapterVi
     static  int i=0;
     private ProgressDialog progressDialog;
     List<String> targets=new ArrayList<>();
+    private LocationListener locationListener;
+    private LocationManager locationManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finder_and_target_count);
         mDatabase= FirebaseDatabase.getInstance().getReference();
-          Intent intent=getIntent();
+        locationManager=(LocationManager) getSystemService(LOCATION_SERVICE);
+
+        Intent intent=getIntent();
           number=intent.getStringExtra("mobile");
           try {
               getList();
@@ -179,13 +189,61 @@ public class FinderAndTargetCount extends AppCompatActivity implements AdapterVi
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String value =adapter.getItem(position);
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
+
         if(value!=null)
-        {
-            Intent intent=new Intent(FinderAndTargetCount.this,ShowTargetLocation.class);
-            intent.putExtra("mobile",value);
+        {   if(manager.isProviderEnabled( LocationManager.GPS_PROVIDER )) {
+            findLoc();
+            Intent intent = new Intent(FinderAndTargetCount.this, ShowTargetLocation.class);
+            intent.putExtra("mobile", value);
             startActivity(intent);
         }
+        else {
+            setGpsOn();
+        }
+
+        }
      //   Toast.makeText(FinderAndTargetCount.this, value, Toast.LENGTH_SHORT).show();
+    }
+
+    @SuppressLint("MissingPermission")
+    private void findLoc() {
+        locationManager=(LocationManager) getSystemService(LOCATION_SERVICE);
+        locationListener=new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+        };
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+        locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+    }
+
+    private void setGpsOn() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+
     }
 
     @Override

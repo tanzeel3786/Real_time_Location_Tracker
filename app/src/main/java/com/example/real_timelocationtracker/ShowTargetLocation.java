@@ -9,6 +9,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -39,13 +41,14 @@ public class ShowTargetLocation extends FragmentActivity implements OnMapReadyCa
     private LocationManager locationManager;
     private LocationListener locationListener;
     private LatLng finderLocation;
+    private Button show;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityShowTargetLocationBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        show=findViewById(R.id.finderBtn);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -54,7 +57,10 @@ public class ShowTargetLocation extends FragmentActivity implements OnMapReadyCa
         locationManager=(LocationManager) getSystemService(LOCATION_SERVICE);
         Intent intent=getIntent();
         targetPhoneNumber=intent.getStringExtra("mobile");
-        showFinderAndTarget();
+
+
+         showFinderAndTarget();
+
        // Toast.makeText(ShowTargetLocation.this,targetPhoneNumber,Toast.LENGTH_SHORT).show();
     }
 
@@ -84,7 +90,7 @@ public class ShowTargetLocation extends FragmentActivity implements OnMapReadyCa
                 {
 
                 }
-             //   Toast.makeText(ShowTargetLocation.this,latitude+"",Toast.LENGTH_SHORT).show();
+         //       Toast.makeText(ShowTargetLocation.this,finderLocation.latitude+"",Toast.LENGTH_SHORT).show();
 
             }
 
@@ -99,24 +105,34 @@ public class ShowTargetLocation extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        locationListener=new LocationListener() {
+        show.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("MissingPermission")
             @Override
-            public void onLocationChanged(@NonNull Location location) {
-            updateCameraPosition(location);
+            public void onClick(View v) {
+                locationManager=(LocationManager) getSystemService(LOCATION_SERVICE);
+                locationListener=new LocationListener() {
+                    @Override
+                    public void onLocationChanged(@NonNull Location location) {
+                        updateCameraPosition(location);
+                    }
+
+                    @Override
+                    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                    }
+                };
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                Location currentPassengerLocation;
+
+                currentPassengerLocation=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                if(currentPassengerLocation!=null) {
+                    //  locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                    updateCameraPosition(currentPassengerLocation);
+
+                }
+                showFinderAndTarget();
             }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-        };
-        Location currentlocation;
-        currentlocation=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        if(currentlocation!=null) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            updateCameraPosition(currentlocation);
-
-        }
+        });
         // Add a marker in Sydney and move the camera
 
     }

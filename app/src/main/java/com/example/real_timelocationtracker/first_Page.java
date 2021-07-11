@@ -7,9 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,7 +47,8 @@ public class first_Page extends AppCompatActivity {
     String typeinDB="";
     List<String> targetList=new ArrayList<>();
     List<String> finderList=new ArrayList<>();
-
+    private LocationManager locationManager;
+    private LocationListener locationListener;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -64,7 +71,9 @@ public class first_Page extends AppCompatActivity {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if(permissionLocation())
-                {   if(isInternetAvailable())
+                {    final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+
+                    if(isInternetAvailable()&&manager.isProviderEnabled( LocationManager.GPS_PROVIDER ))
                      {stop();
 
                      if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
@@ -143,8 +152,15 @@ public class first_Page extends AppCompatActivity {
                          moveTonextActivity();
                      }
                      }
-                     else
-                     {Toast.makeText(getApplicationContext(),"Please turn On your Internet",Toast.LENGTH_SHORT).show();
+                     else {
+                         if(!manager.isProviderEnabled( LocationManager.GPS_PROVIDER ))
+                         {
+                          setGpsOn();
+                             if(manager.isProviderEnabled( LocationManager.GPS_PROVIDER ))
+                                 findLoc();
+                         }
+                         if(!isInternetAvailable())
+                         Toast.makeText(getApplicationContext(),"Please turn On your Internet",Toast.LENGTH_SHORT).show();
                          start();
                       }
                 }
@@ -156,6 +172,43 @@ public class first_Page extends AppCompatActivity {
         };
         my_runnable.run();
         setContentView(R.layout.activity_first__page);
+    }
+    @SuppressLint("MissingPermission")
+    private void findLoc() {
+        locationManager=(LocationManager) getSystemService(LOCATION_SERVICE);
+        locationListener=new LocationListener() {
+            @Override
+            public void onLocationChanged(@NonNull Location location) {
+
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+        };
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+        locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+    }
+    private void setGpsOn() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+
     }
    @RequiresApi(api = Build.VERSION_CODES.M)
    public boolean permissionLocation()
